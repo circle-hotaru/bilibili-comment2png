@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="referrer" content="no-referrer" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Bilibili评论转图片神器</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">橙Power</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            下载
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">AE留言弹跳效果预设档</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <a class="nav-link" href="#"><button class="btn btn-outline-success my-2 my-sm-0"
+          type="submit">Search</button></a>
+    </div>
+  </nav>
+  <div class="container" style="margin-bottom: 5rem;">
+    <div class="row mt-4">
+      <div class="col-12 col-md-6 d-flex flex-column">
+        <h1 class="text-primary mb-4">Bilibili评论转图片神器</h1>
+        <div class="flex-grow-1">
+          <img class="d-none d-md-block" src="https://i.imgur.com/j9rSZOk.png" alt="">
+        </div>
+        <h5>目前功能特色：</h5>
+        <ul>
+          <li>無留言擷取數量上限</li>
+          <li>留言外觀預設倒圓角</li>
+          <li>ZIP壓縮檔打包下載</li>
+          <li>留言內容即為檔名</li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6">
+        <img class="copy-example" src="https://i.imgur.com/l0owWvo.gif" alt="" />
+        <p>此工具由<a href="https://www.facebook.com/huberworld"
+            target="_blank">多度橙</a>開發，可以實現將Youtube影片底下的圖片，轉換成.PNG圖片檔。應用情境如：呈現觀眾留言、留言互動、頻道Q&amp;A、<del>上法院</del>，將會陸續完善其他功能，敬請期待。
+        </p>
+      </div>
+    </div>
+    <hr />
+    <div id="app">
+      <p>例如：<a href="#" v-on:click.prevent="BVId = '1Vs411k78q'">1Vs411k78q</a></p>
+      <form class="form-inline mb-3">
+        <input type="text" class="form-control" placeholder="步驟1：貼上影片ID" v-model="BVId">
+        <button type="button" class="btn btn-outline-dark ml-sm-2 mt-2 mt-sm-0" v-on:click="getAVId(BVId)">
+          <span class="align-middle">步驟2：擷取</span>
+        </button>
+      </form>
+      <div class="d-flex flex-wrap align-items-start justify-content-center">
+        <div class="comment" v-for="item in comments">
+          <img class="author-thumbnail" :src="item.member.avatar" alt="" />
+          <div class="comment-main">
+            <div class="main-header">
+              <span class="author-text">{{ item.member.uname }}</span>
+            </div>
+            <div class="content-text" v-html="item.content.message"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+    <script src="./node_modules/html2canvas/dist/html2canvas.min.js"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script src="./canvas.js"></script>
+</body>
+
+</html>
