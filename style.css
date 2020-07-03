@@ -3,11 +3,13 @@ body{
 }
 .comment {
     background-color: #f9f9f9;
+    display: flex;
     border-radius: 10px;
     margin: 4px;
     padding: 16px;
     width: 360px;
 }
+
 .comment .author-thumbnail {
     border-radius: 50%;
     flex-shrink: 0;
@@ -16,17 +18,32 @@ body{
     width: 40px;
 }
 
-.comment .comment-main .main-header {
-    display: flex;
-    flex-wrap: wrap;
-    line-height: normal;
-    margin-bottom: 2px;
+.comment .comment-main .user-name{
+    color: #333;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    display: block;
 }
 
-.comment .comment-main .content-text {
-    color: var(--yt-spec-text-primary);
-    font-size: 14px;
+.comment .comment-main .content {
+    color: #222;
     line-height: 20px;
+    padding: 2px 0;
+    font-size: 14px;
+    
+    overflow: hidden;
+}
+
+.comment .comment-main .published-time {
+    color: #99a2aa;
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.comment-dark{
+    background-color: #181818;
 }
 
 img, svg {

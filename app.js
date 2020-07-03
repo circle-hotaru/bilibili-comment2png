@@ -46,7 +46,7 @@ app.get('/api/v1/comments', (req, res, next) => {
     res.set('Access-Control-Allow-Methods', 'GET, POST');
     res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
 
-    request('https://api.bilibili.com/x/reply?&pn=1&type=1&oid=' + req.query.oid + '&sort=2', function (error, response, body) {
+    request('https://api.bilibili.com/x/reply?type=1&oid=' + req.query.oid + '&sort=2&nohot=1', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send(body)
         }

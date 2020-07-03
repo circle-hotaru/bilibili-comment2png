@@ -10,6 +10,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="node_modules/bootstrap-vue/dist/bootstrap-vue.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <title>Bilibili评论转图片神器</title>
@@ -74,19 +75,58 @@
     <div id="app">
       <p>例如：<a href="#" v-on:click.prevent="BVId = '1Vs411k78q'">1Vs411k78q</a></p>
       <form class="form-inline mb-3">
-        <input type="text" class="form-control" placeholder="步驟1：貼上影片ID" v-model="BVId">
-        <button type="button" class="btn btn-outline-dark ml-sm-2 mt-2 mt-sm-0" v-on:click="getAVId(BVId)">
+        <input type="text" class="form-control" placeholder="步驟1：貼上影片ID" v-model="BVId" :readonly="fetching || pending">
+        <button type="button" class="btn btn-outline-dark ml-sm-2 mt-2 mt-sm-0" @click="getAVId(BVId)"
+          :disabled="fetching || pending" v-if="BVId">
           <span class="align-middle">步驟2：擷取</span>
+          <div class="spinner-border spinner-border-sm" role="status" v-if="fetching">
+            <span class="sr-only">處理中...</span>
+          </div>
         </button>
       </form>
+      <div class="form-row justify-content-around align-items-center mx-0 mb-3 px-3 pt-3 pb-2 bg-white rounded-lg"
+        v-if="!fetching && comments.length > 0">
+        <div class="col-auto pb-2 text-primary">進階功能 (測試)</div>
+        <div class="col-auto pb-2">
+          <label class="mb-0" for="border-radius">調整圓角</label>
+          <input type="range" id="border-radius" min="0" max="50" v-model="borderRadius" :disabled="pending" />
+        </div>
+        <div class="col-auto pb-2">
+          <b-form-checkbox v-model="displayTime" switch>顯示時間</b-form-checkbox>
+        </div>
+        <div class="col-auto pb-2">
+          <b-form-checkbox v-model="darkTheme" switch>深色主題</b-form-checkbox>
+        </div>
+        <div class="col-auto pb-2">
+          <select class="custom-select" v-model="limit" v-bind:disabled="pending">
+            <option value="20">20人</option>
+            <option value="40">40人</option>
+          </select>
+        </div>
+        <div class="col-auto pb-2">
+          <select class="custom-select" v-model="mode" v-bind:disabled="pending">
+            <option value="hotlist">热度排序</option>
+            <option value="timelist">时间排序</option>
+          </select>
+        </div>
+        <div class="col-auto pb-2">
+          <button type="button" class="btn btn-outline-primary" v-on:click="downloadComments()"
+            v-bind:disabled="pending || comments.length == 0">
+            <span class="align-middle">步驟3：下載圖片(.zip)</span>
+            <div class="spinner-border spinner-border-sm" role="status" v-if="pending">
+              <span class="sr-only">處理中...</span>
+            </div>
+          </button>
+        </div>
+      </div>
       <div class="d-flex flex-wrap align-items-start justify-content-center">
-        <div class="comment" v-for="item in comments">
+        <div class="comment" v-for="item in comments" ref="comments" :class="{ 'comment-dark': darkTheme }"
+          v-bind:style="{ 'border-radius': borderRadius + 'px' }">
           <img class="author-thumbnail" :src="item.member.avatar" alt="" />
           <div class="comment-main">
-            <div class="main-header">
-              <span class="author-text">{{ item.member.uname }}</span>
-            </div>
-            <div class="content-text" v-html="item.content.message"></div>
+            <div class="user-name">{{ item.member.uname }}</div>
+            <div class="content" v-html="item.content.message"></div>
+            <div class="published-time" v-if="displayTime">{{ timestampFormat(item.ctime) }}</div>
           </div>
         </div>
       </div>
@@ -100,6 +140,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"></script>
+    <script src="./node_modules/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
     <script src="./node_modules/html2canvas/dist/html2canvas.min.js"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
     <script src="./canvas.js"></script>
