@@ -45,8 +45,8 @@ app.get('/api/v1/comments', (req, res, next) => {
     res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.set('Access-Control-Allow-Methods', 'GET, POST');
     res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-
-    request('https://api.bilibili.com/x/reply?type=1&oid=' + req.query.oid + '&sort=2&nohot=1', function (error, response, body) {
+    // 测试api https://api.bilibili.com/x/reply?type=1&oid=5920937&sort=2&pn=1&nohot=1
+    request('https://api.bilibili.com/x/reply?type=1&oid=' + req.query.oid + '&sort=' + req.query.sort + '&pn=' + req.query.pn + '&nohot=1', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send(body)
         }

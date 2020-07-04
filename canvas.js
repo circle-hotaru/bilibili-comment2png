@@ -1,10 +1,3 @@
-//html转图片
-//function generatorImage() {
-//     html2canvas(document.querySelector("#capture")).then(canvas => {
-//         document.body.appendChild(canvas)
-//     });
-// }
-
 var app = new Vue({
     el: '#app',
     data: {
@@ -15,24 +8,38 @@ var app = new Vue({
         comments: [],
         // 调整评论圆角
         borderRadius: 10,
-        // 排序模式
-        mode: 'hotlist',
+        // 排序模式 0按时间，2按热度
+        mode: 2,
         displayTime: true,
         darkTheme: false,
         limit: 20,
         // B站时间戳
         ctime: '',
         // 时间戳时间
-        time: ''
+        time: '',
+        // 总评论数
+        acount: '',
+        // 一楼评论数
+        count: '',
+        // 当前页
+        currentPage: 1,
+        // 页面尺寸
+        perPage: 20,
     },
     watch: {
-        AVId: function (newId) {
-            this.getComments(newId);
+        AVId: function (newval) {
+            this.getComments(newval, this.currentPage, this.mode);
         },
         comments: function () {
             this.fetching = false;
             this.pending = false;
-        }
+        },
+        currentPage: function (newval) {
+            this.getComments(this.AVId, newval, this.mode);
+        },
+        mode: function (newval) {
+            this.getComments(this.AVId, this.currentPage, newval);
+        },
     },
     methods: {
         getAVId: function (BVId) {
@@ -46,11 +53,14 @@ var app = new Vue({
                     console.log(error);
                 })
         },
-        getComments: function (AVId) {
+        getComments: function (AVId, currentPage, mode) {
             var that = this;
-            axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId)
+            axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId + "&pn=" + currentPage + "&sort=" + mode)
                 .then(function (response) {
                     that.comments = response.data.data.replies;
+                    that.acount = response.data.data.page.acount;
+                    that.count = response.data.data.page.count;
+                    that.currentPage = response.data.data.page.num;
                 }, function (error) {
                     console.log(error);
                 })
@@ -87,12 +97,29 @@ var app = new Vue({
                 }
             }
         },
+        // 下载图片
         downloadComments: function () {
-            var that = this;
-
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    // 解决滚动条对html2canvas造成的影响
+                    window.scrollTo(0, 0);
+                    // 获取需要绘制的元素
+                    let comments = this.$refs.comment
+                    for (let i = 0; i < comments.length; i++) {
+                        html2canvas(comments[i], {
+                            // 允许跨域（图片相关）
+                            allowTaint: true,
+                            // 允许跨域（图片相关）
+                            useCORS: true,
+                            // 截图的背景颜色
+                            backgroundColor: 'transparent',
+                            logging: false,
+                        }).then(canvas => {
+                            this.$refs.addimg.appendChild(canvas)
+                        });
+                    }
+                }, 1000);
+            })
         }
     },
-    computed: {
-
-    }
 })
