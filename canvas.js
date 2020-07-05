@@ -1,3 +1,5 @@
+// const JSZip = require("jszip");
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -97,15 +99,22 @@ var app = new Vue({
                 }
             }
         },
-        // 下载图片
+        // 下载评论
         downloadComments: function () {
+            // 初始化一个zip打包对象
+            var zip = new JSZip();
+            // 创建images文件夹用于存放图片
+            var img = zip.folder("images");
             this.$nextTick(() => {
                 setTimeout(() => {
                     // 解决滚动条对html2canvas造成的影响
                     window.scrollTo(0, 0);
                     // 获取需要绘制的元素
-                    let comments = this.$refs.comment
+                    let comments = this.$refs.comment;
                     for (let i = 0; i < comments.length; i++) {
+                        // 评论内容做图片名
+                        let imgName = comments[i].innerText.split("\n")[1];
+                        console.log(imgName);
                         html2canvas(comments[i], {
                             // 允许跨域（图片相关）
                             allowTaint: true,
@@ -115,11 +124,25 @@ var app = new Vue({
                             backgroundColor: 'transparent',
                             logging: false,
                         }).then(canvas => {
-                            this.$refs.addimg.appendChild(canvas)
+                            let imgData = canvas.toDataURL().split('data:image/png;base64,')[1];
+                            //这个images文件目录中创建一个base64数据为imgData的图像，图像名是上面获取的imaName
+                            img.file(imgName + '.png', imgData, { base64: true });
+                        }).then(function () {
+                            // 把打包内容异步转成blob二进制格式
+                            // 判断循环结束，则开始下载压缩
+                            if (i == comments.length - 1) {
+                                console.log("start!")
+                                zip.generateAsync({ type: "blob" }).then(function (content) {
+                                    saveAs(content, "example.zip");
+                                });
+                            } else return;
+
                         });
-                    }
+
+                    };
+
                 }, 1000);
-            })
+            });
         }
     },
 })
