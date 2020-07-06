@@ -4,7 +4,7 @@ body{
 .comment {
     --bi-spec-general-background: #f9f9f9;
     --bi-spec-text-primary: #222;
-    --bi-spec-text-secondary: #99a2aa;
+    --bi-spec-text-secondary: #aaa;
     background-color: var(--bi-spec-general-background);
     display: flex;
     border-radius: 10px;

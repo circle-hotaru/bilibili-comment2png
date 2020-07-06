@@ -25,6 +25,10 @@ var app = new Vue({
         currentPage: 1,
         // 页面尺寸
         perPage: 20,
+        // 画图进度
+        done1: 0,
+        // 压缩进度
+        done2: 0
     },
     watch: {
         AVId: function (newval) {
@@ -103,10 +107,14 @@ var app = new Vue({
         },
         // 下载评论
         downloadComments: function () {
+            var that = this;
             // 初始化一个zip打包对象
             var zip = new JSZip();
             // 创建images文件夹用于存放图片
             var img = zip.folder("images");
+            that.done = 0;
+            that.done1 = 0;
+            that.done2 = 0;
             this.$nextTick(() => {
                 setTimeout(() => {
                     // 解决滚动条对html2canvas造成的影响
@@ -116,7 +124,6 @@ var app = new Vue({
                     for (let i = 0; i < comments.length; i++) {
                         // 评论内容做图片名
                         let imgName = comments[i].innerText.split("\n")[1];
-                        console.log(imgName);
                         html2canvas(comments[i], {
                             // 允许跨域（图片相关）
                             allowTaint: true,
@@ -129,22 +136,29 @@ var app = new Vue({
                             let imgData = canvas.toDataURL().split('data:image/png;base64,')[1];
                             //这个images文件目录中创建一个base64数据为imgData的图像，图像名是上面获取的imaName
                             img.file(imgName + '.png', imgData, { base64: true });
+                            that.done1 += 1;
                         }).then(function () {
                             // 把打包内容异步转成blob二进制格式
                             // 判断循环结束，则开始下载压缩
                             if (i == comments.length - 1) {
                                 console.log("start!")
-                                zip.generateAsync({ type: "blob" }).then(function (content) {
+                                zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
+                                    that.done2 = metadata.percent;
+                                }).then(function (content) {
                                     saveAs(content, "example.zip");
                                 });
                             } else return;
-
                         });
-
                     };
-
                 }, 1000);
             });
         }
     },
+    computed: {
+        done: function () {
+            // console.log(this.done1);
+            console.log(this.done2);
+            return ((this.done1 * 50 / this.comments.length) + this.done2 / 2).toFixed(0);
+        }
+    }
 })
