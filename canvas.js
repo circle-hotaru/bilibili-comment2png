@@ -119,8 +119,10 @@ var app = new Vue({
                 setTimeout(() => {
                     // 解决滚动条对html2canvas造成的影响
                     window.scrollTo(0, 0);
+                    // document.documentElement.style.position = 'fixed';
                     // 获取需要绘制的元素
                     let comments = this.$refs.comment;
+                    let j = 0;
                     for (let i = 0; i < comments.length; i++) {
                         // 评论内容做图片名
                         let imgName = comments[i].innerText.split("\n")[1];
@@ -140,8 +142,8 @@ var app = new Vue({
                         }).then(function () {
                             // 把打包内容异步转成blob二进制格式
                             // 判断循环结束，则开始下载压缩
-                            if (i == comments.length - 1) {
-                                console.log("start!")
+                            j += 1;
+                            if (j == comments.length) {
                                 zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
                                     that.done2 = metadata.percent;
                                 }).then(function (content) {
@@ -156,8 +158,6 @@ var app = new Vue({
     },
     computed: {
         done: function () {
-            // console.log(this.done1);
-            console.log(this.done2);
             return ((this.done1 * 50 / this.comments.length) + this.done2 / 2).toFixed(0);
         }
     }
