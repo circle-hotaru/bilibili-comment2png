@@ -67,7 +67,7 @@
       <div class="col-12 col-md-6">
         <img class="copy-example" src="https://i.imgur.com/l0owWvo.gif" alt="" />
         <p>此工具由<a href="https://www.facebook.com/huberworld"
-            target="_blank">多度橙</a>開發，可以實現將Youtube影片底下的圖片，轉換成.PNG圖片檔。應用情境如：呈現觀眾留言、留言互動、頻道Q&amp;A、<del>上法院</del>，將會陸續完善其他功能，敬請期待。
+            target="_blank">多度橙</a>開發，可以實現將Bilibili影片底下的圖片，轉換成.PNG圖片檔。應用情境如：呈現觀眾留言、留言互動、頻道Q&amp;A、<del>上法院</del>，將會陸續完善其他功能，敬請期待。
         </p>
       </div>
     </div>
@@ -94,12 +94,12 @@
         <div class="col-auto pb-2">
           <b-form-checkbox v-model="darkTheme" switch>深色主題</b-form-checkbox>
         </div>
-        <!-- <div class="col-auto pb-2">
-          <select class="custom-select" v-model="limit" v-bind:disabled="pending">
+        <div class="col-auto pb-2">
+          <select class="custom-select" v-model="perPage">
             <option value="20">20人</option>
             <option value="40">40人</option>
           </select>
-        </div> -->
+        </div>
         <div class="col-auto pb-2">
           <select class="custom-select" v-model="mode">
             <option value=2>热度排序</option>
@@ -117,7 +117,8 @@
       </div>
       <!-- 分页 -->
       <h5 class="mb-3"><span class="badge badge-pill badge-primary">{{ count }}</span></h5>
-      <b-pagination v-model="currentPage" :total-rows="count" :per-page=20 prev-text="上一頁" next-text="下一頁" size="sm">
+      <b-pagination v-model="currentPage" :total-rows="count" :per-page="perPage" prev-text="上一頁" next-text="下一頁"
+        size="sm">
       </b-pagination>
       <!-- 评论区 -->
       <div class="d-flex flex-wrap align-items-start justify-content-center">
@@ -131,7 +132,6 @@
           </div>
         </div>
       </div>
-      <div id="addimg" ref="addimg"></div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

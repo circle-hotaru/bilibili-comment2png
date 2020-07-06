@@ -1,5 +1,3 @@
-// const JSZip = require("jszip");
-
 var app = new Vue({
     el: '#app',
     data: {
@@ -8,17 +6,17 @@ var app = new Vue({
         fetching: false,
         pending: false,
         comments: [],
-        // 调整评论圆角
+        // 调整评论样式圆角
         borderRadius: 10,
         // 排序模式 0按时间，2按热度
         mode: 2,
+        // 是否显示时间
         displayTime: true,
-        darkTheme: false,
         limit: 20,
-        // B站时间戳
+        // 时间戳
         ctime: '',
-        // 时间戳时间
-        time: '',
+        // 深色模式
+        darkTheme: false,
         // 总评论数
         acount: '',
         // 一楼评论数
@@ -30,20 +28,24 @@ var app = new Vue({
     },
     watch: {
         AVId: function (newval) {
-            this.getComments(newval, this.currentPage, this.mode);
+            this.getComments(newval, this.currentPage, this.perPage, this.mode);
+        },
+        perPage: function (newval) {
+            this.getComments(this.AVId, this.currentPage, newval, this.mode);
         },
         comments: function () {
             this.fetching = false;
             this.pending = false;
         },
         currentPage: function (newval) {
-            this.getComments(this.AVId, newval, this.mode);
+            this.getComments(this.AVId, newval, this.perPage, this.mode);
         },
         mode: function (newval) {
-            this.getComments(this.AVId, this.currentPage, newval);
+            this.getComments(this.AVId, this.currentPage, this.perPage, newval);
         },
     },
     methods: {
+        // 通过BVId获取AVId
         getAVId: function (BVId) {
             var that = this;
             that.fetching = true;
@@ -55,9 +57,9 @@ var app = new Vue({
                     console.log(error);
                 })
         },
-        getComments: function (AVId, currentPage, mode) {
+        getComments: function (AVId, currentPage, perPage, mode) {
             var that = this;
-            axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId + "&pn=" + currentPage + "&sort=" + mode)
+            axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId + "&pn=" + currentPage + "&ps=" + perPage + "&sort=" + mode)
                 .then(function (response) {
                     that.comments = response.data.data.replies;
                     that.acount = response.data.data.page.acount;
