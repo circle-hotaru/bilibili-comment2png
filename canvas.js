@@ -32,20 +32,21 @@ var app = new Vue({
     },
     watch: {
         AVId: function (newval) {
-            this.getComments(newval, this.currentPage, this.perPage, this.mode);
+            this.getComments(newval, 1, this.perPage, this.mode);
         },
         perPage: function (newval) {
-            this.getComments(this.AVId, this.currentPage, newval, this.mode);
+            this.getComments(this.AVId, 1, newval, this.mode);
         },
         comments: function () {
             this.fetching = false;
             this.pending = false;
         },
         currentPage: function (newval) {
-            this.getComments(this.AVId, newval, this.perPage, this.mode);
+            // 如果只是当前页发生变化，那只需更新部分数据即可
+            this.getComments2(this.AVId, newval, this.perPage, this.mode);
         },
         mode: function (newval) {
-            this.getComments(this.AVId, this.currentPage, this.perPage, newval);
+            this.getComments(this.AVId, 1, this.perPage, newval);
         },
     },
     methods: {
@@ -53,7 +54,6 @@ var app = new Vue({
         getAVId: function (BVId) {
             var that = this;
             that.fetching = true;
-            that.pending = true;
             axios.get("http://127.0.0.1:8089/api/v1/bv2av/?bvid=" + BVId)
                 .then(function (response) {
                     that.AVId = response.data.data.aid;
@@ -61,6 +61,7 @@ var app = new Vue({
                     console.log(error);
                 })
         },
+        // 获取评论
         getComments: function (AVId, currentPage, perPage, mode) {
             var that = this;
             axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId + "&pn=" + currentPage + "&ps=" + perPage + "&sort=" + mode)
@@ -69,6 +70,19 @@ var app = new Vue({
                     that.acount = response.data.data.page.acount;
                     that.count = response.data.data.page.count;
                     that.currentPage = response.data.data.page.num;
+                    that.fetching = false;
+                }, function (error) {
+                    console.log(error);
+                })
+        },
+        // 更改当前页获取评论
+        getComments2: function (AVId, currentPage, perPage, mode) {
+            var that = this;
+            axios.get("http://127.0.0.1:8089/api/v1/comments/?oid=" + AVId + "&pn=" + currentPage + "&ps=" + perPage + "&sort=" + mode)
+                .then(function (response) {
+                    that.comments = response.data.data.replies;
+                    that.currentPage = response.data.data.page.num;
+                    that.fetching = false;
                 }, function (error) {
                     console.log(error);
                 })
@@ -108,6 +122,7 @@ var app = new Vue({
         // 下载评论
         downloadComments: function () {
             var that = this;
+            that.pending = true;
             // 初始化一个zip打包对象
             var zip = new JSZip();
             // 创建images文件夹用于存放图片
@@ -118,14 +133,21 @@ var app = new Vue({
             this.$nextTick(() => {
                 setTimeout(() => {
                     // 解决滚动条对html2canvas造成的影响
-                    window.scrollTo(0, 0);
+                    // window.scrollTo(0, 0);
                     // document.documentElement.style.position = 'fixed';
                     // 获取需要绘制的元素
                     let comments = this.$refs.comment;
-                    let j = 0;
                     for (let i = 0; i < comments.length; i++) {
                         // 评论内容做图片名
                         let imgName = comments[i].innerText.split("\n")[1];
+                        // 返回元素的大小及其相对于视口的位置
+                        let rect = comments[i].getBoundingClientRect();
+                        // 获取滚动轴滚动的长度
+                        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+                        let width = comments[i].offsetWidth // 获取dom 宽度
+                        console.log(width);
+                        let height = comments[i].offsetHeight // 获取dom 高度
+                        console.log(height);
                         html2canvas(comments[i], {
                             // 允许跨域（图片相关）
                             allowTaint: true,
@@ -133,23 +155,33 @@ var app = new Vue({
                             useCORS: true,
                             // 截图的背景颜色
                             backgroundColor: 'transparent',
+                            x: rect.left,
+                            y: rect.top,
+                            width: width,
+                            height: height,
+                            scrollY: -scrollTop,
+                            // 放大2倍
+                            scale: 2,
+                            // 关闭日志
                             logging: false,
                         }).then(canvas => {
                             let imgData = canvas.toDataURL().split('data:image/png;base64,')[1];
                             //这个images文件目录中创建一个base64数据为imgData的图像，图像名是上面获取的imaName
                             img.file(imgName + '.png', imgData, { base64: true });
                             that.done1 += 1;
+                            console.log("添加图片" + i);
                         }).then(function () {
                             // 把打包内容异步转成blob二进制格式
                             // 判断循环结束，则开始下载压缩
-                            j += 1;
-                            if (j == comments.length) {
+                            if (that.done1 == comments.length) {
+                                console.log("开始压缩下载！")
                                 zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
                                     that.done2 = metadata.percent;
                                 }).then(function (content) {
                                     saveAs(content, "example.zip");
                                 });
                             } else return;
+                            that.pending = false;
                         });
                     };
                 }, 1000);

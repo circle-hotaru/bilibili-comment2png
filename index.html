@@ -72,21 +72,24 @@
       </div>
     </div>
     <hr />
+    <!-- 功能区 -->
     <div id="app">
-      <p>例如：<a href="#" @click.prevent="BVId = '1Vs411k78q'">1Vs411k78q</a></p>
+      <p>例如：<a href="#" @click.prevent="BVId = '13x411P7eK'">13x411P7eK</a></p>
       <form class="form-inline mb-3">
-        <input type="text" class="form-control" placeholder="步驟1：貼上影片ID" v-model="BVId">
-        <button type="button" class="btn btn-outline-dark ml-sm-2 mt-2 mt-sm-0" @click="getAVId(BVId)" v-if="BVId">
+        <input type="text" class="form-control" placeholder="步驟1：貼上影片ID" v-model="BVId" :readonly="fetching || pending">
+        <button type="button" class="btn btn-outline-dark ml-sm-2 mt-2 mt-sm-0" @click="getAVId(BVId)"
+          :disabled="fetching || pending" v-if="BVId">
           <span class="align-middle">步驟2：擷取</span>
-          <!-- <div class="spinner-border spinner-border-sm" role="status" v-if="fetching">
+          <div class="spinner-border spinner-border-sm" role="status" v-if="fetching">
             <span class="sr-only">處理中...</span>
-          </div> -->
+          </div>
         </button>
       </form>
-      <div class="form-row justify-content-around align-items-center mx-0 mb-3 px-3 pt-3 pb-2 bg-white rounded-lg">
+      <div class="form-row justify-content-around align-items-center mx-0 mb-3 px-3 pt-3 pb-2 bg-white rounded-lg"
+        v-if="!fetching && count > 0">
         <div class="col-auto pb-2">
           <label class="mb-0" for="border-radius">調整圓角</label>
-          <input type="range" id="border-radius" min="0" max="50" v-model="borderRadius" />
+          <input type="range" id="border-radius" min="0" max="50" v-model="borderRadius" :disabled="pending" />
         </div>
         <div class="col-auto pb-2">
           <b-form-checkbox v-model="displayTime" switch>顯示時間</b-form-checkbox>
@@ -95,36 +98,36 @@
           <b-form-checkbox v-model="darkTheme" switch>深色主題</b-form-checkbox>
         </div>
         <div class="col-auto pb-2">
-          <select class="custom-select" v-model="perPage">
+          <select class="custom-select" v-model="perPage" :disabled="pending">
             <option value="20">20人</option>
             <option value="40">40人</option>
           </select>
         </div>
         <div class="col-auto pb-2">
-          <select class="custom-select" v-model="mode">
+          <select class="custom-select" v-model="mode" :disabled="pending">
             <option value=2>热度排序</option>
             <option value=0>时间排序</option>
           </select>
         </div>
         <div class="col-auto pb-2">
-          <button type="button" class="btn btn-outline-primary" @click="downloadComments()">
+          <button type="button" class="btn btn-outline-primary" @click="downloadComments()" :disabled="pending">
             <span class="align-middle">步驟3：下載圖片(.zip)</span>
-            <!-- <div class="spinner-border spinner-border-sm" role="status">
+            <div class="spinner-border spinner-border-sm" role="status" v-if="pending">
               <span class="sr-only">處理中...</span>
-            </div> -->
+            </div>
           </button>
         </div>
       </div>
       <!-- 分页 -->
-      <h5 class="mb-3"><span class="badge badge-pill badge-primary">{{ count }}</span></h5>
+      <h5 class="mb-3"><span class="badge badge-pill badge-primary" v-if="count>0">{{ count }}</span></h5>
       <!-- 进度条 -->
-      <b-progress class="mb-3" :max=100>
+      <b-progress class="mb-3" :max=100 v-if="pending">
         <b-progress-bar :value="done" :label="`${ done }%`" striped animated>
         </b-progress-bar>
         </b-progress-bar>
       </b-progress>
       <b-pagination v-model="currentPage" :total-rows="count" :per-page="perPage" prev-text="上一頁" next-text="下一頁"
-        size="sm">
+        size="sm" v-if="!pending && count > perPage">
       </b-pagination>
       <!-- 评论区 -->
       <div class="d-flex flex-wrap align-items-start justify-content-center">
