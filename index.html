@@ -118,16 +118,17 @@
           </button>
         </div>
       </div>
-      <!-- 分页 -->
+      <!-- 评论数 -->
       <h5 class="mb-3"><span class="badge badge-pill badge-primary" v-if="count>0">{{ count }}</span></h5>
-      <!-- 进度条 -->
-      <b-progress class="mb-3" :max=100 v-if="pending">
-        <b-progress-bar :value="done" :label="`${ done }%`" striped animated>
+      <!-- 进度条 未完成-->
+      <!-- <b-progress class="mb-3" :max=100 v-if="pending">
+        <b-progress-bar :value="done1" :label="`${ done1/(comments.length*2) }%`" striped animated>
         </b-progress-bar>
         </b-progress-bar>
-      </b-progress>
+      </b-progress> -->
+      <!-- 分页 -->
       <b-pagination v-model="currentPage" :total-rows="count" :per-page="perPage" prev-text="上一頁" next-text="下一頁"
-        size="sm" v-if="!pending && count > perPage">
+        size="sm" v-if="count > perPage">
       </b-pagination>
       <!-- 评论区 -->
       <div class="d-flex flex-wrap align-items-start justify-content-center">

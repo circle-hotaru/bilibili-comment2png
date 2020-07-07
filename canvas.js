@@ -178,7 +178,9 @@ var app = new Vue({
                             if (that.done1 == comments.length) {
                                 console.log("开始压缩下载！")
                                 zip.generateAsync({ type: "blob" }, function updateCallback(metadata) {
-                                    that.done2 = metadata.percent;
+                                    // that.done2 = metadata.percent;
+                                    // that.done2 += (metadata.percent * comments.length) / 100;
+                                    // that.done1 += that.done2;
                                 }).then(function (content) {
                                     saveAs(content, "example.zip");
                                 });
@@ -190,9 +192,10 @@ var app = new Vue({
             });
         }
     },
-    computed: {
-        done: function () {
-            return ((this.done1 * 50 / this.comments.length) + this.done2 / 2).toFixed(0);
-        }
-    }
+    // 计算下载进度
+    // computed: {
+    //     done: function () {
+    //         return ((this.done1 * 50 / this.comments.length) + this.done2 / 2).toFixed(0);
+    //     }
+    // }
 })
