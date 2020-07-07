@@ -142,12 +142,11 @@ var app = new Vue({
                         let imgName = comments[i].innerText.split("\n")[1];
                         // 返回元素的大小及其相对于视口的位置
                         let rect = comments[i].getBoundingClientRect();
+                        rect.x += 8.5;
                         // 获取滚动轴滚动的长度
                         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
                         let width = comments[i].offsetWidth // 获取dom 宽度
-                        console.log(width);
                         let height = comments[i].offsetHeight // 获取dom 高度
-                        console.log(height);
                         html2canvas(comments[i], {
                             // 允许跨域（图片相关）
                             allowTaint: true,
@@ -155,10 +154,13 @@ var app = new Vue({
                             useCORS: true,
                             // 截图的背景颜色
                             backgroundColor: 'transparent',
-                            x: rect.left,
-                            y: rect.top,
+                            // 图片x轴偏移量
+                            x: rect.x,
+                            // 图片宽度
                             width: width,
+                            // 图片高度
                             height: height,
+                            // y轴滚动
                             scrollY: -scrollTop,
                             // 放大2倍
                             scale: 2,

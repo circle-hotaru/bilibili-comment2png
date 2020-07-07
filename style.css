@@ -49,11 +49,3 @@ body{
     line-height: 26px;
     font-size: 12px;
 }
-
-img, svg {
-    vertical-align: middle;
-}
-
-img {
-    border-style: none;
-}
