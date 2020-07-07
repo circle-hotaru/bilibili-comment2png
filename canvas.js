@@ -3,8 +3,11 @@ var app = new Vue({
     data: {
         AVId: '',
         BVId: '',
+        // 视频名
+        title: '',
         fetching: false,
         pending: false,
+        // 评论
         comments: [],
         // 调整评论样式圆角
         borderRadius: 10,
@@ -57,6 +60,7 @@ var app = new Vue({
             axios.get("http://127.0.0.1:8089/api/v1/bv2av/?bvid=" + BVId)
                 .then(function (response) {
                     that.AVId = response.data.data.aid;
+                    that.title = response.data.data.title;
                 }, function (error) {
                     console.log(error);
                 })
@@ -182,7 +186,7 @@ var app = new Vue({
                                     // that.done2 += (metadata.percent * comments.length) / 100;
                                     // that.done1 += that.done2;
                                 }).then(function (content) {
-                                    saveAs(content, "example.zip");
+                                    saveAs(content, that.title + ".zip");
                                 });
                             } else return;
                             that.pending = false;
