@@ -130,15 +130,12 @@ var app = new Vue({
             // 初始化一个zip打包对象
             var zip = new JSZip();
             // 创建images文件夹用于存放图片
-            var img = zip.folder("images");
+            var img = zip.folder(that.title);
             that.done = 0;
             that.done1 = 0;
             that.done2 = 0;
             this.$nextTick(() => {
                 setTimeout(() => {
-                    // 解决滚动条对html2canvas造成的影响
-                    // window.scrollTo(0, 0);
-                    // document.documentElement.style.position = 'fixed';
                     // 获取需要绘制的元素
                     let comments = this.$refs.comment;
                     for (let i = 0; i < comments.length; i++) {
