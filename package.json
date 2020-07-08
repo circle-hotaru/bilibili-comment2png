@@ -5,12 +5,14 @@
   "main": "app.js",
   "dependencies": {
     "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.5",
     "jszip": "^3.5.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "vue": "^2.6.11"
   },
   "devDependencies": {},
   "scripts": {
