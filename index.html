@@ -7,12 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- 反反盗链 -->
   <meta name="referrer" content="no-referrer" />
+  <meta name="keywords" content="BiliBili, 评论转图片" />
+
+  <meta name="og:description" content="由多度橙开发，能快速将Bilibili评论转成图片" />
+  <meta name="og:title" content="Bilibili评论转图片神器" />
+  <meta name="og:type" content="website" />
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./node_modules/bootstrap-vue/dist/bootstrap-vue.min.css">
-  <script src="./node_modules/vue/dist/vue.min.js"></script>
   <link rel="stylesheet" href="./style.css">
+  <script src="./node_modules/vue/dist/vue.min.js"></script>
   <title>Bilibili评论转图片神器</title>
 </head>
 
@@ -22,7 +27,7 @@
       <div class="col-12 col-md-6 d-flex flex-column">
         <h1 class="text-primary mb-4">Bilibili评论转图片神器</h1>
         <div class="flex-grow-1">
-          <img class="d-none d-md-block" src="https://i.imgur.com/j9rSZOk.png" alt="">
+          <img class="d-none d-md-block" src="./images/j9rSZOk.png" alt="">
         </div>
       </div>
       <div class="col-12 col-md-6">
@@ -87,15 +92,6 @@
           </button>
         </div>
       </div>
-      <!-- 评论数 -->
-      <h5 class="mb-3"><span class="badge badge-pill badge-primary" v-if="count>0">{{ count }}</span></h5>
-      <!-- 进度条 未完成-->
-      <!-- <b-progress class="mb-3" :max=100 v-if="pending">
-        <b-progress-bar :value="done1" :label="`${ done1/(comments.length*2) }%`" striped animated>
-        </b-progress-bar>
-        </b-progress-bar>
-      </b-progress> -->
-      <!-- 分页 -->
       <b-pagination v-model="currentPage" :total-rows="count" :per-page="perPage" prev-text="上一頁" next-text="下一頁"
         size="sm" v-if="count > perPage">
       </b-pagination>
@@ -113,6 +109,8 @@
       </div>
     </div>
 
+    <script src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="./node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./node_modules/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
     <script src="./node_modules/html2canvas/dist/html2canvas.min.js"></script>
