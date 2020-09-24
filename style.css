@@ -1,3 +1,11 @@
+:root {
+    --comment-general-background: #f9f9f9;
+    --comment-text-primary: #222;
+    --comment-text-secondary: #aaa;
+    --comment-dark-background: #181818;
+    --comment-dark-text-primary: #fff;
+}
+
 body{
     font-family: Microsoft JhengHei,sans-serif;
     font-size: .9rem;
@@ -15,10 +23,7 @@ body{
     width: 100%;
 }
 .comment {
-    --bi-spec-general-background: #f9f9f9;
-    --bi-spec-text-primary: #222;
-    --bi-spec-text-secondary: #aaa;
-    background-color: var(--bi-spec-general-background);
+    background-color: var(--comment-general-background);
     display: flex;
     border-radius: 10px;
     margin: 4px;
@@ -26,10 +31,8 @@ body{
     width: 360px;
 }
 
-.comment-dark{
-    --bi-spec-general-background: #181818;
-    --bi-spec-text-primary: #fff;
-    --bi-spec-text-secondary: #aaa;
+.comment-dark {
+    background-color: var(--comment-dark-background);
 }
 
 .comment .author-thumbnail {
@@ -40,8 +43,8 @@ body{
     width: 40px;
 }
 
-.comment .comment-main .user-name{
-    color: var(--bi-spec-text-primary);
+.comment .comment-main .user-name {
+    color: var(--comment-text-primary);
     display: inline-block;
     font-size: 12px;
     font-weight: 700;
@@ -49,16 +52,24 @@ body{
     display: block;
 }
 
+.comment .comment-main .user-name-dark {
+    color: var(--comment-dark-text-primary);
+}
+
 .comment .comment-main .content {
-    color: var(--bi-spec-text-primary);
+    color: var(--comment-text-primary);
     line-height: 20px;
     padding: 2px 0;
     font-size: 14px;
     overflow: hidden;
 }
 
+.comment .comment-main .content-dark {
+    color: var(--comment-dark-text-primary);
+}
+
 .comment .comment-main .published-time {
-    color: var(--bi-spec-text-secondary);
+    color: var(--comment-text-secondary);
     line-height: 26px;
     font-size: 12px;
 }

@@ -101,9 +101,10 @@
           :style="{ 'border-radius': borderRadius + 'px' }">
           <img class="author-thumbnail" :src="item.member.avatar" alt="" />
           <div class="comment-main">
-            <div class="user-name">{{ item.member.uname }}</div>
-            <div class="content" v-html="item.content.message"></div>
-            <div class="published-time" v-if="displayTime">{{ timestampFormat(item.ctime) }}</div>
+            <div class="user-name" :class="{ 'user-name-dark': darkTheme }">{{ item.member.uname }}</div>
+            <div class="content" :class="{ 'content-dark': darkTheme }" v-html="item.content.message"></div>
+            <div class="published-time" v-if="displayTime">
+              {{ timestampFormat(item.ctime) }}</div>
           </div>
         </div>
       </div>
