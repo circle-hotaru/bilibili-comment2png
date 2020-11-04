@@ -14,7 +14,6 @@ http://tool.mightyherox.me
 
 ## Technology Stack
 - Vue
-- Node
 - Bootstrap
 - html2canvas
 - JSZip
