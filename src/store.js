@@ -1,4 +1,5 @@
 const axios = require('axios');
+const baseUrl = "http://127.0.0.1:8089";
 
 export const store = {
     state: {
@@ -31,7 +32,7 @@ export const store = {
         this.state.fetching = true
         axios
             .get(
-                "https://secret-ocean-49799.herokuapp.com/https://api.bilibili.com/x/web-interface/view?bvid=" +
+                baseUrl + "/api/v1/bv2av/?bvid=" +
                 this.state.BVId
             )
             .then((response) => {
@@ -45,7 +46,7 @@ export const store = {
     getComments() {
         axios
             .get(
-                "https://secret-ocean-49799.herokuapp.com/https://api.bilibili.com/x/reply?type=1&oid=" +
+                baseUrl + "/api/v1/comments/?oid=" +
                 this.state.AVId +
                 "&pn=" +
                 this.state.currentPage +
