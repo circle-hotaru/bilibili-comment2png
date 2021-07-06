@@ -10,7 +10,7 @@
 
 ## Demo
 
-http://tool.mightyherox.me
+https://bilibili.mightyherox.me/
 
 ## Technology Stack
 - Vue
