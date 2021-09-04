@@ -8,10 +8,6 @@
 - ZIP压缩包打包下载
 - 评论内容为文件名
 
-## Demo
-
-https://bilibili.mightyherox.me/
-
 ## Technology Stack
 - Vue
 - Bootstrap
