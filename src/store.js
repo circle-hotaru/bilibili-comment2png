@@ -1,6 +1,6 @@
 const axios = require("axios");
 const corsUrl = "https://incircles-cors-server.herokuapp.com/";
-const baseUrl = "http://api.bilibili.com";
+const baseUrl = "https://api.bilibili.com";
 
 export const store = {
   state: {
