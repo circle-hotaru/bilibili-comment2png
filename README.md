@@ -38,3 +38,7 @@ npm run serve
 ```
 
 After the application starts visit http://localhost:8080 to view it in the browser.
+
+## 🙏 感谢
+
+https://github.com/SocialSisterYi/bilibili-API-collect
