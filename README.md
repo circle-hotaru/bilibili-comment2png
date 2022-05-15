@@ -25,8 +25,8 @@ https://bilibili-comment2png.vercel.app/
 1. Clone or Download the repository (Depending on whether you are using HTTPS or SSH)
 
 ```
-git clone https://github.com/circle-hotaru/bilibili-comment2canvas.git
-cd bilibili-comment2canvas
+git clone https://github.com/circle-hotaru/bilibili-comment2png.git
+cd bilibili-comment2png
 ```
 
 2. Install dependencies
