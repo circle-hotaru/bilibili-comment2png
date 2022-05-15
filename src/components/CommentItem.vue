@@ -15,7 +15,7 @@
       <div
         class="content"
         :class="{ 'content-dark': sharedState.darkTheme }"
-        v-html="comment.content.message"
+        v-html="message"
       ></div>
       <div class="published-time" v-if="sharedState.displayTime">
         {{ timestampFormat(comment.ctime) }}
@@ -37,9 +37,26 @@ export default {
       sharedState: store.state,
     };
   },
+  computed: {
+    message() {
+      const { message, emote } = this.comment?.content;
+      let _message = message;
+      if (emote) {
+        Object.keys(emote).map((item) => {
+          const regex = new RegExp(`\\${item}`, "g");
+          _message = _message.replace(
+            regex,
+            `<img src="${emote[item].url}" style="width: 20px; height: 20px" />`
+          );
+        });
+        return _message;
+      }
+      return _message;
+    },
+  },
   methods: {
     // 时间戳转化
-    timestampFormat: function (timestamp) {
+    timestampFormat: function(timestamp) {
       function zeroize(num) {
         return (String(num).length == 1 ? "0" : "") + num;
       }
@@ -142,7 +159,7 @@ export default {
 
 .comment .comment-main .content {
   color: var(--comment-text-primary);
-  line-height: 20px;
+  line-height: 24px;
   padding: 2px 0;
   font-size: 14px;
   overflow: hidden;
