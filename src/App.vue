@@ -18,7 +18,8 @@
           alt="获取BVID示例图"
         />
         <p>
-          此工具由<a href="http://mightyherox.me/" target="_blank">多度橙</a
+          此工具由<a href="https://github.com/circle-hotaru" target="_blank"
+            >circlehotarux</a
           >开发，可以实现将Bilibili视频评论区里的评论转换成PNG图片。应用场景如：呈现观众评论、评论互动、频道Q&amp;A，将会陆续完善其他功能，敬请期待。
         </p>
         <h5>目前功能特色：</h5>
