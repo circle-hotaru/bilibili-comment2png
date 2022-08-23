@@ -1,12 +1,12 @@
-const axios = require("axios");
-const corsUrl = "https://incircles-cors-server.herokuapp.com/";
-const baseUrl = "https://api.bilibili.com";
+import axios from 'axios'
+const corsUrl = 'https://incircles-cors-server.herokuapp.com/'
+const baseUrl = 'https://api.bilibili.com'
 
 export const store = {
   state: {
-    AVId: "",
-    BVId: "",
-    title: "",
+    AVId: '',
+    BVId: '',
+    title: '',
     fetching: false,
     pending: false,
     comments: [],
@@ -26,31 +26,31 @@ export const store = {
     download: false,
   },
   getId() {
-    this.state.fetching = true;
-    const url = `${corsUrl}${baseUrl}/x/web-interface/view?bvid=${this.state.BVId}`;
+    this.state.fetching = true
+    const url = `${corsUrl}${baseUrl}/x/web-interface/view?bvid=${this.state.BVId}`
     axios
       .get(url)
       .then((response) => {
-        const { data } = response;
-        this.state.AVId = data.data.aid;
-        this.state.title = data.data.title;
-        this.getComments();
+        const { data } = response
+        this.state.AVId = data.data.aid
+        this.state.title = data.data.title
+        this.getComments()
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
   },
   getComments() {
-    const url = `${corsUrl}${baseUrl}/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`;
+    const url = `${corsUrl}${baseUrl}/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`
     axios
       .get(url)
       .then((response) => {
-        const { data } = response;
-        this.state.comments = data.data.replies;
-        this.state.count = data.data.page.count;
-        this.state.fetching = false;
+        const { data } = response
+        this.state.comments = data.data.replies
+        this.state.count = data.data.page.count
+        this.state.fetching = false
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
   },
   downloadComments() {
-    this.state.download = true;
+    this.state.download = true
   },
-};
+}

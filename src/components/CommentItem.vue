@@ -25,101 +25,101 @@
 </template>
 
 <script>
-import { store } from "../store.js";
+import { store } from '../store.js'
 
 export default {
-  name: "comment-item",
+  name: 'comment-item',
   props: {
     comment: Object,
   },
   data() {
     return {
       sharedState: store.state,
-    };
+    }
   },
   computed: {
     message() {
-      const { message, emote } = this.comment?.content;
-      let _message = message;
+      const { message, emote } = this.comment?.content //eslint-disable-line
+      let _message = message
       if (emote) {
         Object.keys(emote).map((item) => {
-          const regex = new RegExp(`\\${item}`, "g");
+          const regex = new RegExp(`\\${item}`, 'g')
           _message = _message.replace(
             regex,
             `<img src="${emote[item].url}" style="width: 20px; height: 20px" />`
-          );
-        });
-        return _message;
+          )
+        })
+        return _message
       }
-      return _message;
+      return _message
     },
   },
   methods: {
     // 时间戳转化
-    timestampFormat: function(timestamp) {
+    timestampFormat: function (timestamp) {
       function zeroize(num) {
-        return (String(num).length == 1 ? "0" : "") + num;
+        return (String(num).length == 1 ? '0' : '') + num
       }
 
-      var curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
-      var timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
+      var curTimestamp = parseInt(new Date().getTime() / 1000) //当前时间戳
+      var timestampDiff = curTimestamp - timestamp // 参数时间戳与当前时间戳相差秒数
 
-      var curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
-      var tmDate = new Date(timestamp * 1000); // 参数时间戳转换成的日期对象
+      var curDate = new Date(curTimestamp * 1000) // 当前时间日期对象
+      var tmDate = new Date(timestamp * 1000) // 参数时间戳转换成的日期对象
 
       var Y = tmDate.getFullYear(),
         m = tmDate.getMonth() + 1,
-        d = tmDate.getDate();
+        d = tmDate.getDate()
       var H = tmDate.getHours(),
-        i = tmDate.getMinutes();
+        i = tmDate.getMinutes()
 
       if (timestampDiff < 60) {
         // 一分钟以内
-        return "刚刚";
+        return '刚刚'
       } else if (timestampDiff < 3600) {
         // 一小时前之内
-        return Math.floor(timestampDiff / 60) + "分钟前";
+        return Math.floor(timestampDiff / 60) + '分钟前'
       } else if (
         curDate.getFullYear() == Y &&
         curDate.getMonth() + 1 == m &&
         curDate.getDate() == d
       ) {
-        return "今天" + zeroize(H) + ":" + zeroize(i);
+        return '今天' + zeroize(H) + ':' + zeroize(i)
       } else {
-        var newDate = new Date((curTimestamp - 86400) * 1000); // 参数中的时间戳加一天转换成的日期对象
+        var newDate = new Date((curTimestamp - 86400) * 1000) // 参数中的时间戳加一天转换成的日期对象
         if (
           newDate.getFullYear() == Y &&
           newDate.getMonth() + 1 == m &&
           newDate.getDate() == d
         ) {
-          return "昨天" + zeroize(H) + ":" + zeroize(i);
+          return '昨天' + zeroize(H) + ':' + zeroize(i)
         } else if (curDate.getFullYear() == Y) {
           return (
             zeroize(m) +
-            "月" +
+            '月' +
             zeroize(d) +
-            "日 " +
+            '日 ' +
             zeroize(H) +
-            ":" +
+            ':' +
             zeroize(i)
-          );
+          )
         } else {
           return (
             Y +
-            "年" +
+            '年' +
             zeroize(m) +
-            "月" +
+            '月' +
             zeroize(d) +
-            "日 " +
+            '日 ' +
             zeroize(H) +
-            ":" +
+            ':' +
             zeroize(i)
-          );
+          )
         }
       }
     },
   },
-};
+}
 </script>
 
 <style>
