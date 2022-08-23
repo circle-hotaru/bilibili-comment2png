@@ -2,7 +2,7 @@
   <div id="app" class="container">
     <div class="row mt-4">
       <div class="col-12 col-md-6 d-flex flex-column">
-        <h1 class="text-primary mb-4">Bilibili评论转图片神器</h1>
+        <h1 class="text-primary mb-4">Bilibili 评论转图片神器</h1>
         <div class="flex-grow-1">
           <img
             class="d-none d-md-block"
@@ -18,9 +18,12 @@
           alt="获取BVID示例图"
         />
         <p>
-          此工具由<a href="https://github.com/circle-hotaru" target="_blank"
+          此工具由
+          <a href="https://github.com/circle-hotaru" target="_blank"
             >circlehotarux</a
-          >开发，可以实现将Bilibili视频评论区里的评论转换成PNG图片。应用场景如：呈现观众评论、评论互动、频道Q&amp;A，将会陆续完善其他功能，敬请期待。
+          >
+          开发可以将 Bilibili
+          视频评论区里的评论转换成图片。应用场景如：呈现观众评论、评论互动、频道Q&A，将会陆续完善其他功能，敬请期待。
         </p>
         <h5>目前功能特色：</h5>
         <ul>
@@ -40,16 +43,16 @@
 </template>
 
 <script>
-import GetComments from "@/components/GetComments.vue";
-import MainArea from "@/components/MainArea.vue";
+import GetComments from '@/components/GetComments.vue'
+import MainArea from '@/components/MainArea.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     GetComments,
     MainArea,
   },
-};
+}
 </script>
 
 <style>
