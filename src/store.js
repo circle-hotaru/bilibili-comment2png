@@ -1,6 +1,4 @@
 import axios from 'axios'
-const corsUrl = 'https://incircles-cors-server.herokuapp.com/'
-const baseUrl = 'https://api.bilibili.com'
 
 export const store = {
   state: {
@@ -27,7 +25,7 @@ export const store = {
   },
   getId() {
     this.state.fetching = true
-    const url = `${corsUrl}${baseUrl}/x/web-interface/view?bvid=${this.state.BVId}`
+    const url = `/api/x/web-interface/view?bvid=${this.state.BVId}`
     axios
       .get(url)
       .then((response) => {
@@ -39,7 +37,7 @@ export const store = {
       .catch((error) => console.error(error))
   },
   getComments() {
-    const url = `${corsUrl}${baseUrl}/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`
+    const url = `/api/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`
     axios
       .get(url)
       .then((response) => {
