@@ -32,4 +32,13 @@ export default defineConfig({
   ],
   base: './',
   build: {},
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://api.bilibili.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })
