@@ -25,7 +25,13 @@ export const store = {
   },
   getId() {
     this.state.fetching = true
-    const url = `/api/x/web-interface/view?bvid=${this.state.BVId}`
+
+    const rawBVID = this.state.BVId
+    const regex = /BV[0-9A-Z]+/i
+    const matches = rawBVID.match(regex)
+    const realBVID = matches ? matches[0].replace(/^BV/, '') : rawBVID
+
+    const url = `/api/x/web-interface/view?bvid=${realBVID}`
     axios
       .get(url)
       .then((response) => {
