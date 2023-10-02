@@ -12,11 +12,6 @@
         </div>
       </div>
       <div class="col-12 col-md-6 d-flex flex-column">
-        <img
-          class="d-block img-rounded-corners"
-          src="./assets/images/BilibiliBVId.gif"
-          alt="获取BVID示例图"
-        />
         <p>
           此工具由
           <a href="https://github.com/circle-hotaru" target="_blank"
@@ -27,6 +22,7 @@
         </p>
         <h5>目前功能特色：</h5>
         <ul>
+          <li>AI总结评论</li>
           <li>无评论获取数量上限</li>
           <li>自由修改评论外观</li>
           <li>ZIP压缩包打包下载</li>
@@ -37,6 +33,7 @@
     <hr />
     <div>
       <get-comments />
+      <analysis />
       <main-area />
     </div>
   </div>
@@ -45,12 +42,14 @@
 <script>
 import GetComments from '@/components/GetComments.vue'
 import MainArea from '@/components/MainArea.vue'
+import Analysis from '@/components/Analysis.vue'
 
 export default {
   name: 'App',
   components: {
     GetComments,
     MainArea,
+    Analysis,
   },
 }
 </script>

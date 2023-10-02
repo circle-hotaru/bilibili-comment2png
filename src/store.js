@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { SYSTEM_MESSAGE } from './constants'
 
 export const store = {
   state: {
@@ -22,6 +23,8 @@ export const store = {
     perPage: 20,
     // 下载评论开关
     download: false,
+    fetchingAnalysis: false,
+    analysis: undefined,
   },
   getId() {
     this.state.fetching = true
@@ -31,7 +34,7 @@ export const store = {
     const matches = rawBVID.match(regex)
     const realBVID = matches ? matches[0].replace(/^BV/, '') : rawBVID
 
-    const url = `/api/x/web-interface/view?bvid=${realBVID}`
+    const url = `/bili.api/x/web-interface/view?bvid=${realBVID}`
     axios
       .get(url)
       .then((response) => {
@@ -43,18 +46,66 @@ export const store = {
       .catch((error) => console.error(error))
   },
   getComments() {
-    const url = `/api/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`
+    const url = `/bili.api/x/v2/reply?type=1&oid=${this.state.AVId}&sort=${this.state.mode}&pn=${this.state.currentPage}&ps=${this.state.perPage}&nohot=1`
     axios
       .get(url)
       .then((response) => {
         const { data } = response
-        this.state.comments = data.data.replies
-        this.state.count = data.data.page.count
-        this.state.fetching = false
+        console.log('data', data)
+        if (data.code === 0) {
+          this.state.comments = data.data.replies
+          this.state.count = data.data.page.count
+          this.state.fetching = false
+        } else {
+          this.state.fetching = false
+          console.log(data.message)
+        }
       })
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        this.state.fetching = false
+        console.error(error)
+      })
   },
   downloadComments() {
     this.state.download = true
+  },
+  getAnalysis() {
+    this.state.fetchingAnalysis = true
+    const comments = this.state.comments
+      .map((comment) => comment.content.message)
+      .join(';')
+    const apiURL = `${process.env.VUE_APP_OPENAI_API_URL}/v1/chat/completions`
+    const messages = [
+      {
+        role: 'system',
+        content: SYSTEM_MESSAGE,
+      },
+      {
+        role: 'user',
+        content: comments,
+      },
+    ]
+    axios
+      .post(
+        apiURL,
+        {
+          model: 'gpt-3.5-turbo',
+          messages: messages,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.VUE_APP_OPENAI_API_KEY}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        this.state.fetchingAnalysis = false
+        this.state.analysis = data.choices[0].message.content
+      })
+      .catch((error) => {
+        this.state.fetchingAnalysis = false
+        console.error(error)
+      })
   },
 }

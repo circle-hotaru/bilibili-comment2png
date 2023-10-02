@@ -88,52 +88,52 @@
 </template>
 
 <script>
-import { store } from "../store.js";
-import CommentItem from "@/components/CommentItem.vue";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
-import html2canvas from "html2canvas";
+import { store } from '../store.js'
+import CommentItem from '@/components/CommentItem.vue'
+import JSZip from 'jszip'
+import { saveAs } from 'file-saver'
+import html2canvas from 'html2canvas'
 
 export default {
-  name: "main-area",
+  name: 'main-area',
   data() {
     return {
       sharedState: store.state,
-    };
+    }
   },
   components: {
     CommentItem,
   },
   methods: {
     getComments() {
-      store.getComments();
+      store.getComments()
     },
     downloadComments() {
       this.$nextTick(() => {
-        store.state.pending = true;
-        let done = 0;
+        store.state.pending = true
+        let done = 0
         // 初始化一个zip打包对象
-        var zip = new JSZip();
+        var zip = new JSZip()
         // 创建images文件夹用于存放图片
-        var img = zip.folder(store.state.title);
+        var img = zip.folder(store.state.title)
         // 获取需要绘制的元素
-        let comments = this.$refs.comment;
+        let comments = this.$refs.comment
         for (let i = 0; i < comments.length; i++) {
           // 评论内容做图片名
-          let imgName = comments[i].$el.innerText.split("\n")[1];
+          let imgName = comments[i].$el.innerText.split('\n')[1]
           // 返回元素的大小及其相对于视口的位置
-          let rect = comments[i].$el.getBoundingClientRect();
-          rect.x += 8.5;
+          let rect = comments[i].$el.getBoundingClientRect()
+          rect.x += 8.5
           // 获取滚动轴滚动的长度
           let scrollTop =
-            document.documentElement.scrollTop || document.body.scrollTop;
+            document.documentElement.scrollTop || document.body.scrollTop
           html2canvas(comments[i].$el, {
             // 允许跨域（图片相关）
             allowTaint: true,
             // 允许跨域（图片相关）
             useCORS: true,
             // 截图的背景颜色
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
             // 图片x轴偏移量
             x: rect.x,
             scrollY: -scrollTop,
@@ -146,34 +146,33 @@ export default {
               (canvas) => {
                 let imgData = canvas
                   .toDataURL()
-                  .split("data:image/png;base64,")[1];
+                  .split('data:image/png;base64,')[1]
                 //这个images文件目录中创建一个base64数据为imgData的图像，图像名是上面获取的imaName
-                img.file(imgName + ".png", imgData, { base64: true });
-                done += 1;
+                img.file(imgName + '.png', imgData, { base64: true })
+                done += 1
               },
               function (error) {
-                console.log(error);
-                store.state.pending = false;
-                alert("抱歉！出错啦w(ﾟДﾟ)w\n请重试(ノへ￣、)");
-                return;
+                console.log(error)
+                store.state.pending = false
+                alert('抱歉！出错啦w(ﾟДﾟ)w\n请重试(ノへ￣、)')
+                return
               }
             )
             .then(function () {
               // 把打包内容异步转成blob二进制格式
               // 判断循环结束，则开始下载压缩
               if (done === comments.length) {
-                zip.generateAsync({ type: "blob" }).then(function (content) {
-                  saveAs(content, store.state.title + ".zip");
-                });
-              } else return;
-              store.state.pending = false;
-            });
+                zip.generateAsync({ type: 'blob' }).then(function (content) {
+                  saveAs(content, store.state.title + '.zip')
+                })
+              } else return
+              store.state.pending = false
+            })
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>

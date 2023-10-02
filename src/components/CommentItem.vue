@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     message() {
-      const { message, emote } = this.comment?.content //eslint-disable-line
+      const { message, emote } = this.comment?.content
       let _message = message
       if (emote) {
         Object.keys(emote).map((item) => {
