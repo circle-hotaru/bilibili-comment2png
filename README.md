@@ -12,7 +12,7 @@
 
 ## Demo
 
-https://bilibili.circlehotarux.me
+https://bilibili.incircle.dev
 
 ## Technology Stack
 
