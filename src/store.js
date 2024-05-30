@@ -51,7 +51,6 @@ export const store = {
       .get(url)
       .then((response) => {
         const { data } = response
-        console.log('data', data)
         if (data.code === 0) {
           this.state.comments = data.data.replies
           this.state.count = data.data.page.count
@@ -89,7 +88,7 @@ export const store = {
       .post(
         apiURL,
         {
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-4o-2024-05-13',
           messages: messages,
         },
         {
