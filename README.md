@@ -1,49 +1,35 @@
-# Bilibili 评论转图片神器
+# bilibili-comment2png
 
-供 Bilibili UP 主与观众互动，将 Bilibili 视频评论区的评论转换成 PNG，应用场景如：呈现观众评论、评论互动、频道 Q&A，将会陆续完善其他功能，敬请期待！
+This template should help get you started developing with Vue 3 in Vite.
 
-目前功能特色：
+## Recommended IDE Setup
 
-- AI 总结评论
-- 无评论获取数量上限
-- 自由修改评论外观
-- ZIP 压缩包打包下载
-- 评论内容为文件名
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Demo
+## Customize configuration
 
-https://bilibili.incircle.dev
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Technology Stack
+## Project Setup
 
-- Vue
-- Bootstrap
-- html2canvas
-- JSZip
-
-## Installation & Usage
-
-1. Clone or Download the repository (Depending on whether you are using HTTPS or SSH)
-
-```
-git clone https://github.com/circle-hotaru/bilibili-comment2png.git
-cd bilibili-comment2png
+```sh
+pnpm install
 ```
 
-2. Install dependencies
+### Compile and Hot-Reload for Development
 
-```
-npm i
-```
-
-3. Start the application
-
-```
-npm run serve
+```sh
+pnpm dev
 ```
 
-After the application starts visit http://localhost:8080 to view it in the browser.
+### Compile and Minify for Production
 
-## 🙏 感谢
+```sh
+pnpm build
+```
 
-https://github.com/SocialSisterYi/bilibili-API-collect
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+pnpm lint
+```
