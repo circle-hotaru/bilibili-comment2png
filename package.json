@@ -16,7 +16,7 @@
     "bootstrap-vue": "2.18.1",
     "file-saver": "2.0.2",
     "html2canvas": "1.0.0-rc.7",
-    "jszip": "3.5.0",
+    "jszip": "3.8.0",
     "normalize.css": "8.0.1",
     "vue": "^2.6.11"
   },
