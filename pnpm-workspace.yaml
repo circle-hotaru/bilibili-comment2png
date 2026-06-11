@@ -1,0 +1,3 @@
+allowBuilds:
+  bootstrap-vue: true
+  esbuild: true

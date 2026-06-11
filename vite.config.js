@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-import path from 'path'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import { fileURLToPath, URL } from 'node:url'
+import vue from '@vitejs/plugin-vue2'
 import envCompatible from 'vite-plugin-env-compatible'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
@@ -14,13 +14,13 @@ export default defineConfig({
       },
       {
         find: '@',
-        replacement: path.resolve(__dirname, './src'), //eslint-disable-line
+        replacement: fileURLToPath(new URL('./src', import.meta.url)),
       },
     ],
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   plugins: [
-    createVuePlugin({ jsx: true }),
+    vue(),
     envCompatible(),
     createHtmlPlugin({
       inject: {

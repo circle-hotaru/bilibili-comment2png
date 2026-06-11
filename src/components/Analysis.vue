@@ -11,7 +11,7 @@
 import { store } from '../store.js'
 
 export default {
-  name: 'analysis',
+  name: 'analysis-panel',
   data() {
     return {
       sharedState: store.state,
