@@ -1,4 +1,7 @@
 {
+  "installCommand": "corepack pnpm@11.5.3 install --frozen-lockfile",
+  "buildCommand": "corepack pnpm@11.5.3 build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/bili.api/:path*",

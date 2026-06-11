@@ -4,8 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.5.3",
   "engines": {
-    "node": ">=22",
-    "pnpm": ">=11"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "vite",
